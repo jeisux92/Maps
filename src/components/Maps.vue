@@ -10,24 +10,28 @@ import GoogleMapsLoader from "google-maps";
 
 export default {
   data() {
-    return {};
+    return {
+      coordinates: { lat: 4.659841, lng: -74.052056 }
+    };
   },
   methods: {
     initMap() {
+      var vm = this;
       GoogleMapsLoader.load(function(google) {
         let markers = [];
-        var uluru = { lat: -25.363, lng: 131.044 };
+
         const map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 4,
-          center: uluru
+          zoom: 18,
+          center: vm.coordinates
         });
 
         map.addListener("click", function(e) {
-          console.log(e);
           marked(e.latLng);
         });
 
         function marked(latLng) {
+          vm.coordinates = { lat: latLng.lat(), lng: latLng.lng() };
+          vm.$emit("coordinates", vm.coordinates);
           clearMarkers();
           var marker = new google.maps.Marker({
             position: latLng,
@@ -56,6 +60,9 @@ export default {
   background-color: gray;
   width: 600px;
   height: 600px;
+  border: 1px #c2c0c0 solid;
+  border-radius: 4px;
+  box-shadow: 3px 3px #6c6161;
 }
 </style>
 
