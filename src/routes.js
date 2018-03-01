@@ -3,6 +3,7 @@ const ConductoresComponent = () => import("./components/Conductores.vue");
 const ConductorComponent = () => import("./components/ConductorDetalles.vue");
 const ConductorEditComponent = () => import("./components/ConductorEditar.vue");
 const FlotasComponent = () => import("./components/Flotas.vue");
+const FlotaComponent =()=>import("./components/FlotaDetalles.vue");
 
 export const ROUTES = [
   {
@@ -13,11 +14,7 @@ export const ROUTES = [
     path: "/Conductores",
     component: ConductoresComponent
   },
-  {
-    path: "/Conductores/:id",
-    component: ConductorComponent,
-    name:"conductorInfo"
-  },
+
   {
     path: "/Conductores/Detalles/:id",
     component: ConductorComponent,
@@ -31,6 +28,11 @@ export const ROUTES = [
   {
     path: "/Flotas",
     component: FlotasComponent
+  },
+  {
+    path: "/Flotas/Detalles/:id",
+    component: FlotaComponent,
+    name:"flotaInfo"
   },
   {
     path: "*",
