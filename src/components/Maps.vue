@@ -9,6 +9,7 @@
 import GoogleMapsLoader from "google-maps";
 
 export default {
+  props: ["origen", "destino", "edit"],
   data() {
     return {
       coordinates: { lat: 4.659841, lng: -74.052056 }
@@ -16,18 +17,56 @@ export default {
   },
   methods: {
     initMap() {
+      console.log("Origen", this.origen.lat);
       var vm = this;
+      GoogleMapsLoader.KEY = "AIzaSyCDZdUjTjjn_MgtB3MrfofJd0KS5CXW0uY";
       GoogleMapsLoader.load(function(google) {
         let markers = [];
+        vm.coordinates = !vm.edit
+          ? {
+              lat: (vm.origen.lat + vm.destino.lat) / 2,
+              lng: (vm.origen.lng + vm.destino.lng) / 2
+            }
+          : vm.coordinates;
 
         const map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 18,
+          zoom: 12,
           center: vm.coordinates
         });
 
-        map.addListener("click", function(e) {
-          marked(e.latLng);
-        });
+        if (vm.edit) {
+          map.addListener("click", function(e) {
+            marked(e.latLng);
+          });
+        } else {
+          var marker = new google.maps.Marker({
+            position: vm.origen,
+            title: "Origin"
+          });
+          marker.addListener("click", function() {
+            infowindow.open(map, marker);
+          });
+
+          var infowindow = new google.maps.InfoWindow({
+            content: "<strong>Origen</strong>"
+          });
+
+          marker.setMap(map);
+
+          var marker2 = new google.maps.Marker({
+            position: { lat: vm.destino.lat, lng: vm.destino.lng }
+          });
+
+          marker2.addListener("click", function() {
+            infowindow2.open(map, marker2);
+          });
+
+          var infowindow2 = new google.maps.InfoWindow({
+            content: "<strong>Destino</strong>"
+          });
+
+          marker2.setMap(map);
+        }
 
         function marked(latLng) {
           vm.coordinates = { lat: latLng.lat(), lng: latLng.lng() };
@@ -58,11 +97,12 @@ export default {
 <style scoped>
 #map {
   background-color: gray;
-  width: 600px;
-  height: 600px;
+  width: 400px;
+  height: 400px;
   border: 1px #c2c0c0 solid;
   border-radius: 4px;
   box-shadow: 3px 3px #6c6161;
+  margin: 0 auto;
 }
 </style>
 
