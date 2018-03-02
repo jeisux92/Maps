@@ -44,11 +44,11 @@
                     
                             <label>Seleccion tipo de coordenada y oprima<br> en donde desea guardarla</label>
                             <br>
-                            <button type="button" :class="{'btn-primary':conductor.origen,'btn-outline-primary':!conductor.origen}" class="btn " @click="conductor.origen? conductor.origen=null :set(true)">origen</button>
-                            <button type="button" :class="{'btn-secondary':conductor.destino,'btn-outline-secondary':!conductor.destino}" class="btn" @click="conductor.destino? conductor.destino=null :set(false)">destino</button>
-                    
+                            <button type="button" :class="{'btn-primary':conductor.origen,'btn-outline-primary':!conductor.origen}" class="btn " @click="conductor.origen? conductor.origen=null :set(true)">Origen</button>
+                            <button type="button" :class="{'btn-secondary':conductor.destino,'btn-outline-secondary':!conductor.destino}" class="btn" @click="conductor.destino? conductor.destino=null :set(false)">Destino</button>
+                   
                 </form>
-                <hr>
+                 <br>
             </div>
             <div class="col-md-6">
                 <Maps :edit="true" @coordinates="getCoordinates"></Maps>    
@@ -56,11 +56,16 @@
         </div>
         <hr>        
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
+                <router-link class="btn btn-danger" to="/Conductores">
+                    <span class=" fa fa-ban "></span>
+                    Cancelar</router-link>
                 <button class="btn btn-primary" form="form" type="submit">
-                    <span class=" fa fa-floppy-disk"></span>
+                    <span class=" fa fa-save"></span>
                     Guardar</button>
-                <hr>
+            </div>
+            <div class="col-md-6">
+                
             </div>
         </div>
       </div>

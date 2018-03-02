@@ -2,6 +2,12 @@
     <div class="row">
         <div class="col-sm-12">
         <h2>Flotas</h2>
+        <button class="btn btn-primary pull-right"
+                data-toggle="modal" 
+                @click="flota=null"
+                data-target="#detallesFlota"        >
+            <span class="fa fa-plus-square"></span>&nbsp;Agregar flota
+        </button>
         <hr>
             <table class="table table-hover table-dark">
                 <thead>
@@ -21,18 +27,14 @@
                         <td>{{item.Modelo}}</td>
                         <td>
                             <button
-                            class="btn btn-info" 
-                            title="Ver"
-                            @click="flota=index"
+                            class="btn btn-secondary" 
+                            title="Editar"
+                            @click="flota=flotas[index]"
                             data-toggle="modal" 
                             data-target="#detallesFlota"
-                            tag="button"
                             >
-                            <span class="fa fa-eye"></span>
-                            </button>            
-                            <router-link :to="{ name:'conductorEditar', params:{ id : index }}" class="btn btn-primary" title="Editar">
                             <span class="fa fa-pencil"></span>
-                            </router-link>            
+                            </button>                  
                             <button class="btn btn-danger" title="Borrar">
                             <span class="fa fa-trash"></span>
                             </button>
@@ -52,7 +54,7 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                <FlotaDetalles :flota="flotas[flota]"></FlotaDetalles>
+                <FlotaDetalles :flota="flota"></FlotaDetalles>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -72,6 +74,7 @@ export default {
 
   data() {
     return {
+      flota: {},
       flotas: [
         {
           Placa: "XND897",
@@ -89,7 +92,6 @@ export default {
           Modelo: 1794
         }
       ],
-      flota: 0,
       x: {
         Placa: "DRS097",
         Ciudad: "Bogota",
