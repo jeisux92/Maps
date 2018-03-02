@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-12">
         <h2>Flotas</h2>
-        <button class="btn btn-primary pull-right"
+        <button class="btn btn-primary"
                 data-toggle="modal" 
                 @click="flota=null"
                 data-target="#detallesFlota"        >

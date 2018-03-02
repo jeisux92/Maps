@@ -1,44 +1,57 @@
 <template>
   <div class="row">
-    <div class="col-sm-12">
-      <h2>Conductores</h2>
-      <hr>
-      <table class="table table-hover table-dark">
-        <thead>
-          <tr class="text-center">
-            <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Apelligos</th>
-            <th scope="col">Telefono</th>
-            <th scope="col">Flota</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item,index) in conductores" v-bind:key="index" class="text-center">
-            <th>{{index}}</th>
-            <td>{{item.Nombre}}</td>
-            <td>{{item.Apellidos}}</td>
-            <td>{{item.Telefono}}</td>
-            <td>{{item.Flota}}</td>
-            <td>
-              <router-link :to="{ name:'conductorInfo', params:{ id : index }}" class="btn btn-info" title="Ver">
-                <span class="fa fa-eye"></span>
-              </router-link>            
-              <router-link :to="{ name:'conductorEditar', params:{ id : index }}" class="btn btn-primary" title="Editar">
-                <span class="fa fa-pencil"></span>
-              </router-link>            
-              <button class="btn btn-danger" title="Borrar">
-                <span class="fa fa-trash"></span>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table> 
-    </div>
+      <div class="col-sm-12">
+    <h2>Conductores</h2>
+    <router-link class="btn btn-primary"
+                  :to="{ name:'conductorCrear', params:{ id : 0 }}"
+                   >
+            <span class="fa fa-plus-square"></span>&nbsp;Agregar conductor
+    </router-link>
+    <hr>
+    <table class="table table-hover table-dark">
+    <thead>
+      <tr class="text-center">
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apelligos</th>
+        <th scope="col">Tipo de documento</th>
+        <th scope="col">Numero de documento</th>
+        <th scope="col">Telefono</th>
+        <th scope="col">Flota</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item,index) in conductores" v-bind:key="index" class="text-center">
+        <th>{{index}}</th>
+        <td>{{item.Nombre}}</td>
+        <td>{{item.Apellidos}}</td>
+        <td>{{item.TipoDocumento}}</td>
+        <td>{{item.NumDocumento}}</td>
+        <td>{{item.Telefono}}</td>
+        <td>{{item.Flota}}</td>
+
+        <td>
+          <router-link :to="{ name:'conductorInfo', params:{ id : index }}" class="btn btn-info" title="Ver">
+            <span class="fa fa-eye"></span>
+          </router-link>            
+          <router-link :to="{ name:'conductorEditar', params:{ id : index }}" class="btn btn-primary" title="Editar">
+            <span class="fa fa-pencil"></span>
+          </router-link>            
+          <button class="btn btn-danger" title="Borrar">
+            <span class="fa fa-trash"></span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+</table>
+               
+      </div>
   </div>
 </template>
 <script>
+
+
 export default {
   data() {
     return {

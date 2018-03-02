@@ -21,6 +21,11 @@ export const ROUTES = [
     name:"conductorInfo"
   },
   {
+    path: "/Conductores/Crear/:id",
+    component: ConductorEditComponent,
+    name:"conductorCrear"
+  },
+  {
     path: "/Conductores/Editar/:id",
     component: ConductorEditComponent,
     name:"conductorEditar"
