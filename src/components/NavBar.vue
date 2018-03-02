@@ -14,10 +14,10 @@
         <!-- <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a> -->
       </li>
       <li class="nav-item">
-        <router-link active-class="active" exact class="nav-link" to="/Conductores">Conductores</router-link>
+        <router-link active-class="active" class="nav-link" to="/Conductores">Conductores</router-link>
       </li>
       <li class="nav-item">
-        <router-link active-class="active" exact class="nav-link" to="/Flotas">Flotas</router-link>
+        <router-link active-class="active" class="nav-link" to="/Flotas">Flotas</router-link>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">

@@ -17,7 +17,6 @@ export default {
   },
   methods: {
     initMap() {
-      console.log("Origen", this.origen.lat);
       var vm = this;
       GoogleMapsLoader.KEY = "AIzaSyCDZdUjTjjn_MgtB3MrfofJd0KS5CXW0uY";
       GoogleMapsLoader.load(function(google) {
@@ -102,7 +101,7 @@ export default {
   border: 1px #c2c0c0 solid;
   border-radius: 4px;
   box-shadow: 3px 3px #6c6161;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 </style>
 

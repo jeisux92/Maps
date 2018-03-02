@@ -1,10 +1,10 @@
 <template>
   <div class="row">
-      <div class="col-md-12">
+      <div class="col-sm-12">
           <h2>Detalles</h2>
           <hr>
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-sm-12 col-md-6">
                 <dl class="row">
                     <dt class="col-sm-3">Nombre</dt>
                     <dd class="col-sm-9">{{conductor.Nombre}}</dd>
@@ -29,12 +29,16 @@
                     <dt class="col-sm-3">Flota</dt>
                     <dd class="col-sm-9">{{conductor.Flota}}</dd>
                 </dl>
-                <router-link to="/Conductores" class="btn btn-warning"><span class="fa fa-arrow-left"></span>Regresar</router-link>
             </div>
-            <div class="col-md-6 text-center">
+            <div class="col-sm-12 col-md-6 text-center">
                 <Maps @coordinates='coordinates' :origen="conductor.Origen" :destino="conductor.Destino" :edit="false"></Maps>
             </div>
-           <pre>{{coordinatesMap}}</pre> 
+          </div>
+          <hr>
+          <div class="row">
+              <div class="col-md-12">
+                    <router-link to="/Conductores" class="btn btn-warning"><span class="fa fa-arrow-left"></span>Regresar</router-link>
+              </div>
           </div>
       </div>
   </div>
