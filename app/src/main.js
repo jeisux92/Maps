@@ -18,10 +18,10 @@ Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.http.options.root = "http://localhost:8081/";
 
-Vue.http.interceptors.push(function(request) {
+Vue.http.interceptors.push(function() {
 
   document.getElementById('loading').classList.add('containerLoading')
-  return function(response) {
+  return function() {
     document.getElementById('loading').classList.remove('containerLoading')
 
 

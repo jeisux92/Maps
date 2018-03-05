@@ -54,10 +54,10 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                <FlotaDetalles :flota="flota"></FlotaDetalles>
+                <FlotaDetalles :flota="flota" @cerrarModal='cerrarModal'></FlotaDetalles>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id='close'>Close</button>
                 </div>
             </div>
             </div>
@@ -66,6 +66,7 @@
 </template>
 <script>
 import FlotaDetalles from "./FlotaDetalles.vue";
+import FlotaService from "./../services/FlotaService";
 
 export default {
   components: {
@@ -75,29 +76,25 @@ export default {
   data() {
     return {
       flota: {},
-      flotas: [
-        {
-          Placa: "XND897",
-          Ciudad: "Bogota",
-          Modelo: 1794
-        },
-        {
-          Placa: "LOP697",
-          Ciudad: "Bogota",
-          Modelo: 1794
-        },
-        {
-          Placa: "DRS097",
-          Ciudad: "Bogota",
-          Modelo: 1794
-        }
-      ],
-      x: {
-        Placa: "DRS097",
-        Ciudad: "Bogota",
-        Modelo: 1794
-      }
+      flotas: []
     };
+  },
+  created() {
+    this.cargarFlotas();
+  },
+  methods: {
+    cargarFlotas() {
+      FlotaService.get().then(x => {
+        this.flotas = x.data.flotas;
+      });
+    },
+    borrarFlota() {
+      FlotaService.get().then(() => this.cargarFlotas());
+    },
+    cerrarModal() {
+      document.getElementById("close").click();
+      this.cargarFlotas();
+    }
   }
 };
 </script>

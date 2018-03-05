@@ -45,7 +45,7 @@ import ConductorService from "./../services/ConductorService";
 
 export default {
   components: {
-    Maps:()=> import("./Maps.vue")
+    Maps
   },
   data() {
     return {

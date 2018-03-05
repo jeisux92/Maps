@@ -56,19 +56,16 @@ export default {
   },
   created() {
     this.cargarConductores();
-    
   },
   methods: {
     borrar(index) {
-      ConductorService.delete(index).then(x => {
-        this.cargarConductores();
+      ConductorService.delete(index).then(() => this.cargarConductores());
+    },
+    cargarConductores() {
+      ConductorService.get().then(x => {
+        this.conductores = x.data.conductores;
       });
     },
-    cargarConductores(){
-      ConductorService.get().then(x => {
-      this.conductores = x.data.conductores;
-    });
-    }
   }
 };
 </script>

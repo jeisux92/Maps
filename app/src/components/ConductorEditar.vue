@@ -79,6 +79,7 @@
 <script>
 import Maps from "./Maps";
 import ConductorService from "./../services/ConductorService";
+import FlotaService from "./../services/FlotaService";
 
 export default {
   components: {
@@ -86,6 +87,7 @@ export default {
   },
   data() {
     return {
+      id: "",
       conductor: {
         Origen: null,
         Destino: null,
@@ -102,6 +104,11 @@ export default {
     };
   },
   methods: {
+    cargarFlotas() {
+      FlotaService.get().then(x => {
+        this.flotas = x.data.flotas;
+      });
+    },
     getCoordinates(coordenadas) {
       console.log(coordenadas);
       this.coordenadas = coordenadas;
@@ -118,7 +125,7 @@ export default {
     },
     guardarUsuario() {
       if (this.conductor.Origen && this.conductor.Destino) {
-        ConductorService.post(this.conductor).then(x => {
+        ConductorService.post(this.conductor).then(() => {
           this.$router.push({ name: "Conductores" });
         });
       } else {
@@ -126,32 +133,17 @@ export default {
       }
     }
   },
-  mounted() {
-    this.flotas = [
-      {
-        Placa: "XND897",
-        Ciudad: "Bogota",
-        Modelo: 1794
-      },
-      {
-        Placa: "LOP697",
-        Ciudad: "Bogota",
-        Modelo: 1794
-      },
-      {
-        Placa: "DRS097",
-        Ciudad: "Bogota",
-        Modelo: 1794
-      }
-    ];
-
-    this.conductor.Flota = this.flotas[0].Placa;
-  },
+  mounted() {},
   created() {
-    if (this.$route.params.id != 0) {
-      ConductorService.getById(this.$route.params.id).then(x => {
+    this.cargarFlotas();
+
+    this.id = this.$route.params.id;
+    console.log(this.id);
+    if (this.id != 0) {
+      this.editar = true;
+      ConductorService.getById(this.id).then(x => {
+        console.log(x.data);
         this.conductor = x.data.conductor[0];
-        this.editar = true;
         this.conductor.Origen = null;
         this.conductor.Destino = null;
       });
