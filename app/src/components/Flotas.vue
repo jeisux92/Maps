@@ -4,7 +4,7 @@
         <h2>Flotas</h2>
         <button class="btn btn-primary"
                 data-toggle="modal" 
-                @click="flota=null"
+                @click="flota={}"
                 data-target="#detallesFlota"        >
             <span class="fa fa-plus-square"></span>&nbsp;Agregar flota
         </button>

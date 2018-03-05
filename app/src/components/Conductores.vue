@@ -14,8 +14,6 @@
         <th scope="col">#</th>
         <th scope="col">Nombre</th>
         <th scope="col">Apelligos</th>
-        <th scope="col">Tipo de documento</th>
-        <th scope="col">Numero de documento</th>
         <th scope="col">Telefono</th>
         <th scope="col">Flota</th>
         <th scope="col">Acciones</th>
@@ -26,19 +24,17 @@
         <th>{{index}}</th>
         <td>{{item.Nombre}}</td>
         <td>{{item.Apellidos}}</td>
-        <td>{{item.TipoDocumento}}</td>
-        <td>{{item.NumDocumento}}</td>
         <td>{{item.Telefono}}</td>
         <td>{{item.Flota}}</td>
 
         <td>
-          <router-link :to="{ name:'conductorInfo', params:{ id : index }}" class="btn btn-info" title="Ver">
+          <router-link :to="{ name:'conductorInfo', params:{ id : item._id }}" class="btn btn-info" title="Ver">
             <span class="fa fa-eye"></span>
           </router-link>            
-          <router-link :to="{ name:'conductorEditar', params:{ id : index }}" class="btn btn-primary" title="Editar">
+          <router-link :to="{ name:'conductorEditar', params:{ id : item._id }}" class="btn btn-primary" title="Editar">
             <span class="fa fa-pencil"></span>
           </router-link>            
-          <button class="btn btn-danger" title="Borrar">
+          <button class="btn btn-danger" title="Borrar" @click="borrar(item._id)" type="button">
             <span class="fa fa-trash"></span>
           </button>
         </td>
@@ -50,40 +46,30 @@
   </div>
 </template>
 <script>
-
+import ConductorService from "./../services/ConductorService";
 
 export default {
   data() {
     return {
-      
-      conductores: [
-        {
-          Nombre: "Gabriel",
-          Apellidos: "Martinez",
-          TipoDocumento: "CC",
-          NumDocumento: "1094269885",
-          Telefono: 3057376957,
-          Flota:8773
-        },
-        {
-          Nombre: "Luisa",
-          Apellidos: "Sacristan",
-          TipoDocumento: "CC",
-          NumDocumento: "1094269885",
-          Telefono: 3201920120,
-          Flota:32
-        },
-        {
-          Nombre: "Hacer",
-          Apellidos: "Tasci",
-          TipoDocumento: "CC",
-          NumDocumento: "1094269885",
-          Telefono: 3109210920,
-          Flota:54
-        }
-      ]
+      conductores: []
     };
-  }  
+  },
+  created() {
+    this.cargarConductores();
+    
+  },
+  methods: {
+    borrar(index) {
+      ConductorService.delete(index).then(x => {
+        this.cargarConductores();
+      });
+    },
+    cargarConductores(){
+      ConductorService.get().then(x => {
+      this.conductores = x.data.conductores;
+    });
+    }
+  }
 };
 </script>
 

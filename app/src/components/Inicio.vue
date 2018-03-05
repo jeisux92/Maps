@@ -11,6 +11,15 @@
   </div>
 </template>
 <script>
-export default {};
+import ConductorService from './../services/ConductorService';
+
+export default {
+    created(){
+        console.log('Hi');
+        ConductorService.getSomething().then(x=>{
+            console.log(x.data)               
+        });
+    }
+};
 </script>
 

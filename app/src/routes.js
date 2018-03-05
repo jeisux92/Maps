@@ -12,7 +12,8 @@ export const ROUTES = [
   },
   {
     path: "/Conductores",
-    component: ConductoresComponent
+    component: ConductoresComponent,
+    name:'Conductores'
   },
 
   {

@@ -9,7 +9,7 @@
 import GoogleMapsLoader from "google-maps";
 
 export default {
-  props: ["origen", "destino", "edit"],
+  props: ["origen", "destino", "edit","recargar"],
   data() {
     return {
       coordinates: { lat: 4.659841, lng: -74.052056 }
@@ -86,6 +86,11 @@ export default {
           markers = new Array();
         }
       });
+    },
+    wathc:{
+      recargar:function(){
+        this.initMap();
+      }
     }
   },
   mounted() {

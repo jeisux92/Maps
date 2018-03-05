@@ -32,7 +32,7 @@
                 <router-link to="/Conductores" class="btn btn-warning"><span class="fa fa-arrow-left"></span>&nbsp;Regresar</router-link>
             </div>
             <div class="col-md-6 text-center">
-                <Maps @coordinates='coordinates' :origen="conductor.Origen" :destino="conductor.Destino" :edit="false"></Maps>
+                <Maps :origen="conductor.Origen" :destino="conductor.Destino" :edit="false" v-if="conductor.Origen"></Maps>
             </div>
           </div>
       </div>
@@ -41,22 +41,17 @@
 </template>
 <script>
 import Maps from "./Maps.vue";
+import ConductorService from "./../services/ConductorService";
+
 export default {
   components: {
-    Maps
+    Maps:()=> import("./Maps.vue")
   },
   data() {
     return {
       coordinatesMap: {},
       conductor: {
-        Nombre: "Gabriel",
-        Apellidos: "Martinez",
-        TipoDocumento: "CC",
-        NumDocumento: "1094269885",
-        Telefono: 3057376957,
-        Flota: 78327,
-        Origen: { lat: 4.659841, lng: -74.052056 },
-        Destino: { lat: 4.679453364341739, lng: -74.05383426198136 }
+          
       }
     };
   },
@@ -64,6 +59,11 @@ export default {
     coordinates(item) {
       this.coordinatesMap = item;
     }
+  },
+  created() {
+    ConductorService.getById(this.$route.params.id).then(x => {
+      this.conductor = x.data.conductor[0];
+    });
   }
 };
 </script>
