@@ -36,7 +36,7 @@ export default {
       default: {
         Placa: null,
         Modelo: null,
-        Ciudad:'Pamplona'
+        Ciudad: "Pamplona"
       }
     }
   },
@@ -45,14 +45,14 @@ export default {
       ciudades: ["Pamplona", "Bogota", "Bucaramanga"]
     };
   },
-  created(){
-      if(!this.flota.Placa){
-          this.flota.Ciudad = this.ciudades[0];
-
-      }
+  created() {
+    if (!this.flota.Placa) {
+      this.flota.Ciudad = this.ciudades[0];
+    }
   },
   methods: {
     guardarFlota() {
+      this.flota.Placa = this.flota.PLaca.toUpperCase();
       FlotaService.post(this.flota).then(() => {
         this.$emit("cerrarModal", true);
       });
