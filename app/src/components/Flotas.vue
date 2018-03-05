@@ -35,7 +35,7 @@
                             >
                             <span class="fa fa-pencil"></span>
                             </button>                  
-                            <button class="btn btn-danger" title="Borrar">
+                            <button class="btn btn-danger" title="Borrar" @click="borrarFlota(item._id)">
                             <span class="fa fa-trash"></span>
                             </button>
                         </td>
@@ -88,8 +88,8 @@ export default {
         this.flotas = x.data.flotas;
       });
     },
-    borrarFlota() {
-      FlotaService.get().then(() => this.cargarFlotas());
+    borrarFlota(flota) {
+      FlotaService.delete(flota).then(() => this.cargarFlotas());
     },
     cerrarModal() {
       document.getElementById("close").click();

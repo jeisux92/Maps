@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label>Modelo</label>
-                    <input type="text" class="form-control" required v-model="flota.Modelo">
+                    <input type="number" maxlength="4" minlength="4" class="form-control" required v-model.number="flota.Modelo">
                 </div>
                 <div class="form-group col-md-12">
                     <button class="btn btn-primary" type="submit">Guardar</button>
