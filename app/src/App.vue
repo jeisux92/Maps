@@ -2,19 +2,20 @@
   <div id="app">   
     <NavBar></NavBar>  
     <div class="container">
-    <Conductores></Conductores>
+      <router-view></router-view>
     </div>
-      <!-- <router-link>Go to Foo</router-link> -->
   </div>
 </template>
 
 <script>
+import Inicio from "./components/Inicio";
 import NavBar from "./components/NavBar.vue";
-import Conductores from './components/Conductores.vue';
+import Conductores from "./components/Conductores.vue";
 
 export default {
   name: "app",
   components: {
+    Inicio,
     NavBar,
     Conductores
   }
@@ -22,7 +23,7 @@ export default {
 </script>
 
 <style>
-.container{
-  margin-top:35px;
+.container {
+  margin-top: 35px;
 }
 </style>
