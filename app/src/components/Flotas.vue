@@ -9,7 +9,7 @@
             <span class="fa fa-plus-square"></span>&nbsp;Agregar flota
         </button>
         <hr>
-            <table class="table table-hover table-dark">
+            <table class="table table-hover table-dark" v-if="flotas.length>0">
                 <thead>
                     <tr class="text-center">
                         <th scope="col">#</th>

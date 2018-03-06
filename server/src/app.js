@@ -21,7 +21,6 @@ db.once("open", function(callback) {
 
 app.get("/conductores", (req, res) => {
   Conductor.find({}, function(error, conductores) {
-    console.log(conductores);
     if (error) {
       console.error(error);
     }
@@ -64,7 +63,6 @@ app.post("/conductores", (req, res) => {
     Destino: Destino
   });
 
-  console.log(new_post);
   new_post.save(function(error) {
     if (error) {
       console.log(error);
@@ -121,6 +119,7 @@ app.put("/conductores/:id", (req, res) => {
 //Flotas
 app.get("/flotas", (req, res) => {
   Flota.find({}, function(error, flotas) {
+  
     if (error) {
       console.error(error);
     }
@@ -138,17 +137,15 @@ app.get("/flotas/:id", (req, res) => {
       console.error(error);
     }
     if (req.params.id == 0) {
-      console.log(req.params.id);
       Conductor.find({}, function(error, conductor) {
         if (error) {
           console.log(error);
         }
-        console.log(conductor);
-
+        if(flota){
         flota = flota.filter(x => {
-          console.log(x);
           return conductor.findIndex(c => c.Flota.Placa == x.Placa) == -1;
         });
+      }
         res.send({
           flotas: flota
         });
@@ -163,6 +160,7 @@ app.get("/flotas/:id", (req, res) => {
 
 app.post("/flotas", (req, res) => {
   var db = req.db;
+ 
   var Placa = req.body.Placa;
   var Ciudad = req.body.Ciudad;
   var Modelo = req.body.Modelo;
@@ -189,26 +187,30 @@ app.delete("/flotas/:id", (req, res) => {
   console.log(req.params.id);
   Flota.remove(
     {
-      _id: req.params.id
+      _id: req.params.id 
     },
     function(err, post) {
       if (err) res.send(err);
 
-      Conductor.find({ Flota: req.params.id }, function(error, conductor) {
-        if (error) {
-          console.error(error);
-        }
-        console.log(conductor);
-        conductor.Flota = {};
-        conductor.save(function(error) {
-          if (error) {
-            console.log(error);
-          }
-          res.send({
-            success: true
-          });
-        });
-      });
+      // Conductor.find({  }, function(error, conductores) {
+      //   if (error) {
+      //     console.error(error);
+      //   }
+
+      //   var conductor = conductores.find(x=>x.Flota._id = req.params.id);
+      //   if(conductor){
+
+      //     conductor.Flota = null;
+      //     conductor.save(function(error) {
+      //       if (error) {
+      //         console.log(error);
+      //       }
+      //       res.send({
+      //         success: true
+      //       });
+      //     });
+      //   }         
+      // });
       res.send({
         success: true
       });

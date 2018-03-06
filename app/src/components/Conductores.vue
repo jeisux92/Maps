@@ -22,8 +22,8 @@
     <tbody>
       <tr v-for="(item,index) in conductores" v-bind:key="index" class="text-center">
         <th>{{index}}</th>
-        <td>{{item.Nombre}}</td>
-        <td>{{item.Apellidos}}</td>
+        <td>{{item.Nombre | uppercase}}</td>
+        <td>{{item.Apellidos | uppercase}}</td>
         <td>{{item.Telefono}}</td>
         <td>{{item.Flota.Placa}}</td>
 
@@ -63,7 +63,14 @@ export default {
     },
     cargarConductores() {
       ConductorService.get().then(x => {
-        this.conductores = x.data.conductores;
+        this.conductores = x.data.conductores.filter(c=>{
+            if(!c.Flota){
+              c.Flota = {
+                Placa:''
+              };
+            }
+            return c;
+        });
       });
     },
   }

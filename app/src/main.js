@@ -28,6 +28,11 @@ Vue.http.interceptors.push(function() {
   };
 });
 
+//Filter
+Vue.filter('uppercase', function(value) {
+  if (!value) return "";
+  return value.toUpperCase();
+});
 
 const ROUTER = new VueRouter({
   routes: ROUTES,

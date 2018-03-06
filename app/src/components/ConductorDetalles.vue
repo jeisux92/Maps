@@ -7,11 +7,11 @@
             <div class="col-md-6">
                 <dl class="row">
                     <dt class="col-sm-3">Nombre</dt>
-                    <dd class="col-sm-9">{{conductor.Nombre}}</dd>
+                    <dd class="col-sm-9">{{conductor.Nombre | uppercase}}</dd>
                 </dl>
                 <dl class="row">
                     <dt class="col-sm-3">Apellidos</dt>
-                    <dd class="col-sm-9">{{conductor.Apellidos}}</dd>
+                    <dd class="col-sm-9">{{conductor.Apellidos | uppercase}}</dd>
                 </dl>
                 <dl class="row">
                     <dt class="col-sm-3">Tipo de documento</dt>
@@ -58,7 +58,11 @@ export default {
   data() {
     return {
       coordinatesMap: {},
-      conductor: {}
+      conductor: {
+        Flota: {
+          Placa: ""
+        }
+      }
     };
   },
   methods: {
@@ -68,6 +72,11 @@ export default {
   },
   created() {
     ConductorService.getById(this.$route.params.id).then(x => {
+      if (!x.data.conductor[0].Flota) {
+        x.data.conductor[0].Flota = {
+          Placa: ""
+        };
+      }
       this.conductor = x.data.conductor[0];
     });
   }

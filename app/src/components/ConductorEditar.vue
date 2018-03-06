@@ -107,12 +107,14 @@ export default {
   methods: {
     cargarFlotas() {
       FlotaService.getById(0).then(x => {
-        console.log(x);
         this.flotas = x.data.flotas;
-        if (!this.editar) {
+        if (this.$route.params.id == 0) {
           this.conductor.Flota = this.flotas[0];
-        } else {
-          this.flotas.push(this.conductor.Flota);
+        } 
+        else {
+          if (this.conductor.Flota) {
+            this.flotas.push(this.conductor.Flota);
+          }
         }
       });
     },
