@@ -20,10 +20,9 @@
         <router-link active-class="active" class="nav-link" to="/Flotas">Flotas</router-link>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-    </form>
+    <div class="form-inline my-2 my-lg-0">
+      
+    </div>
   </div>
 </nav>
 </template>
