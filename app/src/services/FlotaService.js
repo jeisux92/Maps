@@ -12,5 +12,8 @@ export default {
   },
   delete(item) {
     return Vue.http.delete("flotas/" + item);
+  },
+  update(flota) {
+    return Vue.http.put("flotas/" + flota._id, flota);
   }
 };

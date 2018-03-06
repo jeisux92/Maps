@@ -22,14 +22,22 @@
                     <dd class="col-sm-9">{{conductor.NumDocumento}}</dd>
                 </dl>
                 <dl class="row">
-                    <dt class="col-sm-3">Telefono</dt>
+                    <dt class="col-sm-3">Celular</dt>
                     <dd class="col-sm-9">{{conductor.Telefono}}</dd>
                 </dl>
                 <dl class="row">
                     <dt class="col-sm-3">Flota</dt>
-                    <dd class="col-sm-9">{{conductor.Flota}}</dd>
+                    <dd class="col-sm-9">{{conductor.Flota.Placa}}</dd>
                 </dl>
-                <router-link to="/Conductores" class="btn btn-warning"><span class="fa fa-arrow-left"></span>&nbsp;Regresar</router-link>
+                <router-link to="/Conductores" class="btn btn-warning">
+                <span class="fa fa-arrow-left"></span>&nbsp;
+                Regresar
+                </router-link>
+                <router-link :to="{ name:'conductorEditar', params:{ id : conductor._id }}" class="btn btn-primary" title="Editar">
+                              <span class="fa fa-pencil"></span>&nbsp;
+                              Editar
+                </router-link>            
+
             </div>
             <div class="col-md-6 text-center">
                 <Maps :origen="conductor.Origen" :destino="conductor.Destino" :edit="false" v-if="conductor.Origen"></Maps>
@@ -50,9 +58,7 @@ export default {
   data() {
     return {
       coordinatesMap: {},
-      conductor: {
-          
-      }
+      conductor: {}
     };
   },
   methods: {

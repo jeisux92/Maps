@@ -71,7 +71,7 @@ app.post("/conductores", (req, res) => {
     }
     res.send({
       success: true,
-      message: "Post saved successfully!"
+      message: "Conductor guardadocon exito!"
     });
   });
 });
@@ -91,7 +91,32 @@ app.delete("/conductores/:id", (req, res) => {
   );
 });
 
+app.put("/conductores/:id", (req, res) => {
+  var db = req.db;
+  Conductor.findById(req.params.id, function(error, conductor) {
+    if (error) {
+      console.error(error);
+    }
 
+    conductor.Nombre = req.body.Nombre;
+    conductor.Apellidos = req.body.Apellidos;
+    conductor.TipoDocumento = req.body.TipoDocumento;
+    conductor.NumDocumento = req.body.NumDocumento;
+    conductor.Telefono = req.body.Telefono;
+    conductor.Flota = req.body.Flota;
+    conductor.Origen = req.body.Origen;
+    conductor.Destino = req.body.Destino;
+
+    conductor.save(function(error) {
+      if (error) {
+        console.log(error);
+      }
+      res.send({
+        success: true
+      });
+    });
+  });
+});
 
 //Flotas
 app.get("/flotas", (req, res) => {
@@ -106,13 +131,33 @@ app.get("/flotas", (req, res) => {
 });
 
 app.get("/flotas/:id", (req, res) => {
-  Flota.find({ _id: req.params.id }, function(error, flota) {
+  var query = req.params.id == 0 ? {} : { _id: req.params.id };
+
+  Flota.find(query, function(error, flota) {
     if (error) {
       console.error(error);
     }
-    res.send({
-      flota: flota
-    });
+    if (req.params.id == 0) {
+      console.log(req.params.id);
+      Conductor.find({}, function(error, conductor) {
+        if (error) {
+          console.log(error);
+        }
+        console.log(conductor);
+
+        flota = flota.filter(x => {
+          console.log(x);
+          return conductor.findIndex(c => c.Flota.Placa == x.Placa) == -1;
+        });
+        res.send({
+          flotas: flota
+        });
+      });
+    } else {
+      res.send({
+        flota: flota
+      });
+    }
   }).sort({ _id: -1 });
 });
 
@@ -121,7 +166,6 @@ app.post("/flotas", (req, res) => {
   var Placa = req.body.Placa;
   var Ciudad = req.body.Ciudad;
   var Modelo = req.body.Modelo;
- 
 
   var new_flota = new Flota({
     Placa: Placa,
@@ -149,6 +193,22 @@ app.delete("/flotas/:id", (req, res) => {
     },
     function(err, post) {
       if (err) res.send(err);
+
+      Conductor.find({ Flota: req.params.id }, function(error, conductor) {
+        if (error) {
+          console.error(error);
+        }
+        console.log(conductor);
+        conductor.Flota = {};
+        conductor.save(function(error) {
+          if (error) {
+            console.log(error);
+          }
+          res.send({
+            success: true
+          });
+        });
+      });
       res.send({
         success: true
       });
@@ -156,5 +216,25 @@ app.delete("/flotas/:id", (req, res) => {
   );
 });
 
+app.put("/flotas/:id", (req, res) => {
+  var db = req.db;
+  Flota.findById(req.params.id, function(error, flota) {
+    if (error) {
+      console.error(error);
+    }
+
+    flota.Placa = req.body.Placa;
+    flota.Ciudad = req.body.Ciudad;
+    flota.Modelo = req.body.Modelo;
+    flota.save(function(error) {
+      if (error) {
+        console.log(error);
+      }
+      res.send({
+        success: true
+      });
+    });
+  });
+});
 
 app.listen(process.env.PORT || 8081);

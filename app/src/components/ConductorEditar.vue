@@ -3,7 +3,6 @@
       <div class="col-md-12">
         <h2>{{editar?"Editar conductor":"Crear conductor"}}</h2>
         <hr>
-        {{editar}}
         <div class="row">
             <div class="col-md-6">
                 <form id="form" @submit.prevent="guardarUsuario">
@@ -26,18 +25,18 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputAddress2">Número de documento</label>
-                            <input type="text" class="form-control" required v-model="conductor.NumDocumento">
+                            <input type="number" class="form-control" required v-model.number="conductor.NumDocumento" min="10000000" max="10000000000">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label>Telefono</label>
-                            <input type="text" class="form-control" required v-model="conductor.Telefono">
+                            <label>Celular</label>
+                            <input type="text" class="form-control" required v-model.number="conductor.Telefono" min="3000000000" max="3999999999">
                         </div>
                         <div class="form-group col-md-6">
                             <label>Flota</label>
                             <select class="form-control" required v-model="conductor.Flota">
-                                <option :value="flota.Placa" v-for="(flota,index) in flotas" 
+                                <option :value="flota" v-for="(flota,index) in flotas" 
                                 :key="index">{{flota.Placa}}</option>
                             </select>
                         </div>
@@ -53,7 +52,9 @@
             </div>
             <div class="col-md-6">
                 <Maps :edit="true" 
+                @limpiarCoordenadas="limpiarCoordenadas"
                 :origen="conductor.Origen" :destino="conductor.Destino"
+                v-if="conductor.Origen || estado || !editar"
                 @coordinates="getCoordinates" ></Maps>    
             </div>                    
         </div>
@@ -72,8 +73,6 @@
             </div>
         </div>
       </div>
-      <pre>{{conductor.Origen}}</pre>
-      <pre>{{conductor.Destino}}</pre>
   </div>
 </template>
 <script>
@@ -91,7 +90,8 @@ export default {
       conductor: {
         Origen: null,
         Destino: null,
-        TipoDocumento: "CC"
+        TipoDocumento: "CC",
+        Flota: null
       },
       editar: false,
       coordenadas: null,
@@ -100,13 +100,20 @@ export default {
       destino: null,
       ubicacion: "origen",
       tipoDocumento: ["CC", "CE", "TI", "Pasaporte"],
-      flotas: []
+      flotas: [],
+      estado: false
     };
   },
   methods: {
     cargarFlotas() {
-      FlotaService.get().then(x => {
+      FlotaService.getById(0).then(x => {
+        console.log(x);
         this.flotas = x.data.flotas;
+        if (!this.editar) {
+          this.conductor.Flota = this.flotas[0];
+        } else {
+          this.flotas.push(this.conductor.Flota);
+        }
       });
     },
     getCoordinates(coordenadas) {
@@ -114,8 +121,6 @@ export default {
       this.coordenadas = coordenadas;
     },
     set(state) {
-      console.log(state + "&" + this.coordenadas);
-
       if (state) {
         this.conductor.Origen = this.coordenadas;
       } else {
@@ -125,29 +130,37 @@ export default {
     },
     guardarUsuario() {
       if (this.conductor.Origen && this.conductor.Destino) {
-        ConductorService.post(this.conductor).then(() => {
-          this.$router.push({ name: "Conductores" });
-        });
+        if (this.editar) {
+          ConductorService.update(this.conductor).then(() => {
+            this.$router.push({ name: "Conductores" });
+          });
+        } else {
+          ConductorService.post(this.conductor).then(() => {
+            this.$router.push({ name: "Conductores" });
+          });
+        }
       } else {
         alert("Seleccione un origen y una ubicación");
       }
+    },
+    limpiarCoordenadas() {
+      this.conductor.Origen = null;
+      this.conductor.Destino = null;
+      this.estado = true;
     }
   },
   mounted() {},
   created() {
-    this.cargarFlotas();
-
     this.id = this.$route.params.id;
-    console.log(this.id);
     if (this.id != 0) {
       this.editar = true;
       ConductorService.getById(this.id).then(x => {
-        console.log(x.data);
         this.conductor = x.data.conductor[0];
-        this.conductor.Origen = null;
-        this.conductor.Destino = null;
       });
+    } else {
+      this.editar = false;
     }
+    this.cargarFlotas();
   }
 };
 </script>

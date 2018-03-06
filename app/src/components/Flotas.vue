@@ -4,7 +4,7 @@
         <h2>Flotas</h2>
         <button class="btn btn-primary"
                 data-toggle="modal" 
-                @click="flota={}"
+                @click="editar=false;flota={};first=true"
                 data-target="#detallesFlota"        >
             <span class="fa fa-plus-square"></span>&nbsp;Agregar flota
         </button>
@@ -29,7 +29,7 @@
                             <button
                             class="btn btn-secondary" 
                             title="Editar"
-                            @click="flota=flotas[index]"
+                            @click="editar=true; flota=flotas[index];first=true"
                             data-toggle="modal" 
                             data-target="#detallesFlota"
                             >
@@ -48,16 +48,16 @@
             <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h2 class="modal-title" id="exampleModalLabel">Detalles</h2>
+                <h2 class="modal-title" id="exampleModalLabel">{{editar?'Editar':'Crear'}}</h2>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
                 <div class="modal-body">
-                <FlotaDetalles :flota="flota" @cerrarModal='cerrarModal'></FlotaDetalles>
+                <FlotaDetalles :flota="flota" @cerrarModal='cerrarModal' :editar="editar" v-if="first"></FlotaDetalles>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id='close'>Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id='close'>Cancelar</button>
                 </div>
             </div>
             </div>
@@ -76,7 +76,9 @@ export default {
   data() {
     return {
       flota: {},
-      flotas: []
+      flotas: [],
+      editar: false,
+      first:false
     };
   },
   created() {

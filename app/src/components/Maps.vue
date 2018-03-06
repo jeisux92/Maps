@@ -9,7 +9,7 @@
 import GoogleMapsLoader from "google-maps";
 
 export default {
-  props: ["origen", "destino", "edit","recargar"],
+  props: ["origen", "destino", "edit", "recargar"],
   data() {
     return {
       coordinates: { lat: 4.659841, lng: -74.052056 }
@@ -21,12 +21,14 @@ export default {
       GoogleMapsLoader.KEY = "AIzaSyCDZdUjTjjn_MgtB3MrfofJd0KS5CXW0uY";
       GoogleMapsLoader.load(function(google) {
         let markers = [];
-        vm.coordinates = !vm.edit
-          ? {
-              lat: (vm.origen.lat + vm.destino.lat) / 2,
-              lng: (vm.origen.lng + vm.destino.lng) / 2
-            }
-          : vm.coordinates;
+        let contador = 0;
+        vm.coordinates =
+          vm.origen || vm.destino
+            ? {
+                lat: (vm.origen.lat + vm.destino.lat) / 2,
+                lng: (vm.origen.lng + vm.destino.lng) / 2
+              }
+            : vm.coordinates;
 
         const map = new google.maps.Map(document.getElementById("map"), {
           zoom: 12,
@@ -37,10 +39,10 @@ export default {
           map.addListener("click", function(e) {
             marked(e.latLng);
           });
-        } else {
+        }
+        if (vm.origen || vm.destino) {
           var marker = new google.maps.Marker({
-            position: vm.origen,
-            title: "Origin"
+            position: vm.origen
           });
           marker.addListener("click", function() {
             infowindow.open(map, marker);
@@ -51,6 +53,7 @@ export default {
           });
 
           marker.setMap(map);
+          markers.push(marker);
 
           var marker2 = new google.maps.Marker({
             position: { lat: vm.destino.lat, lng: vm.destino.lng }
@@ -65,9 +68,14 @@ export default {
           });
 
           marker2.setMap(map);
+          markers.push(marker2);
         }
 
         function marked(latLng) {
+          contador++;
+          if (contador == 1) {
+            vm.$emit("limpiarCoordenadas");
+          }
           vm.coordinates = { lat: latLng.lat(), lng: latLng.lng() };
           vm.$emit("coordinates", vm.coordinates);
           clearMarkers();
@@ -86,11 +94,6 @@ export default {
           markers = new Array();
         }
       });
-    },
-    wathc:{
-      recargar:function(){
-        this.initMap();
-      }
     }
   },
   mounted() {

@@ -8,7 +8,7 @@
             <span class="fa fa-plus-square"></span>&nbsp;Agregar conductor
     </router-link>
     <hr>
-    <table class="table table-hover table-dark">
+    <table class="table table-hover table-dark" v-if="conductores.length>0">
     <thead>
       <tr class="text-center">
         <th scope="col">#</th>
@@ -25,7 +25,7 @@
         <td>{{item.Nombre}}</td>
         <td>{{item.Apellidos}}</td>
         <td>{{item.Telefono}}</td>
-        <td>{{item.Flota}}</td>
+        <td>{{item.Flota.Placa}}</td>
 
         <td>
           <router-link :to="{ name:'conductorInfo', params:{ id : item._id }}" class="btn btn-info" title="Ver">
