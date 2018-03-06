@@ -6,7 +6,7 @@ var mongoose = require("mongoose");
 
 var Conductor = require("./../models/conductor");
 var Flota = require("./../models/flota");
-
+ 
 const app = express();
 app.use(morgan("combined"));
 app.use(bodyParser.json());

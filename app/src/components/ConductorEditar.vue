@@ -79,7 +79,7 @@
 import Maps from "./Maps";
 import ConductorService from "./../services/ConductorService";
 import FlotaService from "./../services/FlotaService";
-
+import tipoDocumento from "./../data/tipoDocumento.json"
 export default {
   components: {
     Maps
@@ -90,7 +90,7 @@ export default {
       conductor: {
         Origen: null,
         Destino: null,
-        TipoDocumento: "CC",
+        TipoDocumento: tipoDocumento[0],
         Flota: null
       },
       editar: false,
@@ -99,7 +99,7 @@ export default {
       origen: null,
       destino: null,
       ubicacion: "origen",
-      tipoDocumento: ["CC", "CE", "TI", "Pasaporte"],
+      tipoDocumento,
       flotas: [],
       estado: false
     };

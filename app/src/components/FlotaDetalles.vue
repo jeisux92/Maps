@@ -29,13 +29,13 @@
 </template>
 <script>
 import FlotaService from "./../services/FlotaService";
-
+import ciudades from "./../data/ciudades.json"
 export default {
   props: {
     flota: {
       required: true,
       default: {
-        Ciudad: "Arauca"
+        Ciudad: ciudades[0]
       }
     },
     editar: {
@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      ciudades: ["Arauca", "Barranquilla", "Bogota", "Bucaramanga", "Pamplona"]
+      ciudades
     };
   },
   methods: {
